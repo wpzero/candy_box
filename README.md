@@ -1,8 +1,6 @@
 # CandyBox
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/candy_box`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Candy box includes special include and extend function and can add config on class or module.
 
 ## Installation
 
@@ -22,7 +20,47 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+  module HiMixin
+    include CandyBox
+
+    write_candy_config do
+        version 0.1
+        word 'hello world'
+    end
+
+    def say_hi
+        "say: #{candy_config.word}"
+    end
+
+    def version
+        candy_config.version
+    end
+
+    def sleep
+        'sleep'
+    end
+  end
+
+  HiMixin.candy_config.version # 0.1
+  HiMixin.candy_config.word # 'hello world'
+
+```
+include HiMinxin through candy_box and rewrite these these config
+
+```ruby
+  class Person
+    include CandyBox
+    add_candy HiMixin, version: 0.2, word: '你好世界', only: [:say_hi, :version]
+  end
+
+  Persion.candy_config.word # '你好世界'
+  Persion.candy_config.version # 0.2
+  p = Persion.new
+  p.say_hi # 'say: 你好世界'
+  p.version # 0.2
+  p.sleep # NoMethodError
+```
 
 ## Development
 
